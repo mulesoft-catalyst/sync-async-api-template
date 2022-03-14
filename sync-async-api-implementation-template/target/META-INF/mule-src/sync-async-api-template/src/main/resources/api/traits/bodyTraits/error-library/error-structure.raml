@@ -1,0 +1,38 @@
+#%RAML 1.0 Library
+
+types:  
+  error-collection:
+    type: object
+    properties:
+      errors:
+        type: error-item []
+    description: An array containing all of the errors that occurred
+
+  error-item:
+    type: object
+    properties:
+      status:
+        type: string
+        example: "4.."
+        description: The HTTP status code applicable to this problem, expressed as a string value.
+      message:
+        type: string
+        example: Response code 4.. mapped as failure
+        description: A description of the error in a human-readable format. Could be http reason
+      type:
+        type: string
+        example: DATAWEAVE_EXCEPTION
+        description: What type of error occurred (HTTP, DATAWEAVE,....)
+      detail:
+        type: string
+        example: Error is unknown,please check RawMessage
+        required: false
+        description: A brief description of what the overall, generalized error is. You will be able to explain exactly what caused the overall error in the errors array later.
+      timestamp:
+        type: string
+        example: 2019-08-13T14:31:03.683+01:00
+        description: The time when the error happened
+      id:
+        type: string
+        example: 59f80590-bdce-11e9-8ebf-f018987510e1
+        description: A unique identifier for the specific instance of the error (Please note that this is not the status code or an application-specific identifier.)

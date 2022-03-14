@@ -1,0 +1,6 @@
+{
+  "correlation-id" : "0f26012a-2d11-4cb2-9170-535288fc9ca3",
+  "message" : "New Account Request is accepted for further processing",
+  "detail" : "Anypoint MQ messageId: 0f26012a-2d11-4cb2-9170-535288fc9ca3",
+  "timestamp" : "2015-08-19T15:10:16Z"
+}

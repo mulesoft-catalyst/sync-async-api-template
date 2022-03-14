@@ -1,0 +1,113 @@
+<?org.mule.security.encryption.xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.mule.extensions</groupId>
+        <artifactId>mule-ee-core-modules-parent</artifactId>
+        <version>1.2.0</version>
+    </parent>
+
+    <groupId>com.mulesoft.modules</groupId>
+    <artifactId>mule-secure-configuration-property-module</artifactId>
+    <packaging>mule-extension</packaging>
+    <version>1.2.3</version>
+
+    <name>Mule Secure Configuration Property Extension</name>
+    <description>Mule extension for loading encrypted properties</description>
+
+    <properties> 
+        <formatterConfigPath>formatter.xml</formatterConfigPath>
+        <muleTestsComponentPlugin>${mule.version}</muleTestsComponentPlugin>
+        <minMuleVersion>${mule.version}</minMuleVersion>
+        <muleEncryptionVersion>1.2.1</muleEncryptionVersion>
+
+        <licenseYear>2020</licenseYear>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-core</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-encryption</artifactId>
+            <version>${muleEncryptionVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcpg-jdk15on</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcprov-ext-jdk15on</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcprov-jdk15on</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcpkix-jdk15on</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.tests.plugin</groupId>
+            <artifactId>mule-tests-component-plugin</artifactId>
+            <version>${muleTestsComponentPlugin}</version>
+            <classifier>mule-plugin</classifier>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <file>${project.build.directory}/classes/META-INF/mule-artifact/mule-artifact.json</file>
+                    <replacements>
+                        <replacement>
+                            <token>%MIN_MULE_VERSION%</token>
+                            <value>${minMuleVersion}</value>
+                        </replacement>
+                    </replacements>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>mulesoft-private</id>
+            <name>Mulesoft internal repository</name>
+            <url>https://repository.mulesoft.org/nexus/content/repositories/private/</url>
+        </repository>
+        <repository>
+            <id>mule</id>
+            <name>Mule Repository</name>
+            <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mulesoft-private</id>
+            <name>Mulesoft internal repository</name>
+            <url>https://repository.mulesoft.org/nexus/content/repositories/private/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

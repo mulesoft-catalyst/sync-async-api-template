@@ -1,0 +1,12 @@
+{
+  "errors": [
+    {
+      "status": "405",
+      "message": "Response code 405 mapped as Method Not Allowed.",
+      "type": "RAML",
+      "detail": "Error is unknown,please check RawMessage",
+      "timestamp": "2019-08-13T14:31:03.683+01:00",
+      "id": "59f80590-bdce-11e9-8ebf-f018987510e1"
+    }
+  ]
+}

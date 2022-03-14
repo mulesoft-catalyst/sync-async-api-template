@@ -1,0 +1,8 @@
+#%RAML 1.0 Trait
+
+headers: 
+  X-CORRELATION-ID:
+    description: Identifier correlation message identifier.
+    required: false
+    pattern: "([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}"
+    example: 0f26012a-2d11-4cb2-9170-535288fc9ca3

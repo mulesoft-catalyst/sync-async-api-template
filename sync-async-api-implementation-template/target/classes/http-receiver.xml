@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <flow name="sync-async-api-template-main">
+        <http:listener config-ref="HttpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+		<logger level="INFO" doc:name="Log Entry" doc:id="a53a8b74-a135-4422-8c75-7260012c845b" message='#["Call Entry to " ++ attributes.method default "" ++ attributes.requestUri default ""]' />
+		<apikit:router config-ref="sync-async-api-template-config" />
+		<logger level="INFO" doc:name="Log Exit" doc:id="787de1d8-e8ce-477b-a171-3f8c4ddf1e91" message='#["Call Exit from " ++ attributes.method default "" ++ attributes.requestUri default ""]' />
+		<error-handler ref="globalError_Handler" />
+    </flow>
+    <flow name="sync-async-api-template-console">
+        <http:listener config-ref="HttpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="sync-async-api-template-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="get:\api-status:sync-async-api-template-config">
+        <ee:transform doc:name="API Status Response">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: "OK",
+  version: "v1",
+  time: now()
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\accounts:application\json:sync-async-api-template-config">
+		<choice doc:name="Choice" doc:id="6e4e2ff4-07f2-4141-891c-71b7e4ef702d" >
+			<when expression='#[attributes.headers.Prefer=="respond-async"]' >
+				<flow-ref doc:name="Post To Backend Async" doc:id="55f4f1b9-a800-470e-aebc-dcb959926d62" name="post-backend-applicatio-async" />
+				<set-variable value="#[202]" doc:name="Set the HTTP Status - 202" doc:id="dbf93eef-ac71-4545-9a0d-45a45287226d" variableName="httpStatus" />
+			</when>
+			<otherwise >
+				<flow-ref doc:name="Post to Backend Application" doc:id="88a52920-cfb3-4624-be3f-a09b2bc78d80" name="post-backend-application" />
+				<set-variable value="#[201]" doc:name="Set the HTTP Status - 201" doc:id="6a5bdf5f-6d8e-4a5f-bf37-80f579e5324d" variableName="httpStatus" />
+			</otherwise>
+		</choice>
+    </flow>
+</mule>
