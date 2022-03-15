@@ -10,7 +10,6 @@ Implementation of this template is based on [RFC-7240](https://datatracker.ietf.
 
 Sample use-case where Sync & Async API can be an experience API where multiple clients can change the behaviour of the Exp-API by setting the Prefer header as defined in [RFC-7240](https://datatracker.ietf.org/doc/html/rfc7240#section-4.1).
 
-![resources/sync-async-pattern-3b4d56da-d811-42f9-914e-dee72ec9fd88.jpg](resources/sync-async-pattern-3b4d56da-d811-42f9-914e-dee72ec9fd88.jpg)
 
 ## How to use it
 
