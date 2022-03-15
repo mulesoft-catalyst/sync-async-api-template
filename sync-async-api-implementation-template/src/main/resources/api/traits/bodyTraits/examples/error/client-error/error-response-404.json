@@ -1,0 +1,12 @@
+{
+  "errors": [
+    {
+      "status": "404",
+      "message": "Response code 404 mapped as Not Found.",
+      "type": "RAML",
+      "detail": "Error is unknown,please check RawMessage",
+      "timestamp": "2019-08-13T14:31:03.683+01:00",
+      "id": "59f80590-bdce-11e9-8ebf-f018987510e1"
+    }
+  ]
+}

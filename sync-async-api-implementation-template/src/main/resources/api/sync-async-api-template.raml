@@ -1,0 +1,45 @@
+#%RAML 1.0
+version: v2
+title: Template API
+protocols:
+  - HTTPS
+uses:
+  lb-account: /libraries/lb-account.raml
+  lb-common: /libraries/lb-common.raml
+
+resourceTypes:
+  collection-resource: !include /resourceTypes/collection-resourceType.raml
+traits:
+  error-response: !include /traits/bodyTraits/errorResponse.raml
+  preferred-response: !include /traits/headerTraits/preferredResponse.raml
+  client-id-enforcement: !include /traits/headerTraits/clientIdEnforcement.raml
+  traceable: !include /traits/headerTraits/traceable.raml
+
+/api-status:
+  is: [error-response, client-id-enforcement, traceable]
+  get:
+  type:
+    collection-resource:
+      content-type: application/json
+      type-get-response: lb-common.api-status
+      examples-get-response:
+        example-1: !include /examples/api-status.json
+                
+/accounts:
+  is: [error-response, client-id-enforcement, traceable] # <Remove this comment> All 4xx & 5xx errorcodes will be available as part of the traits. Error handling must be implemented in-line with the error response structure defined in the traits.
+  post: # <Remove this comment> Create a new Notification
+    is: [preferred-response]
+  type:
+    collection-resource:
+      content-type: application/json
+      type-post-request: lb-account.account
+      examples-post-request: 
+        example-1: !include /examples/new-account.json
+      type-post-201-response:  lb-common.sync-response
+      examples-post-201-response: 
+        example-1:  !include /examples/201-response.json
+      type-post-202-response:  lb-common.async-response
+      examples-post-202-response: 
+        example-1: !include /examples/202-response.json
+  
+  
