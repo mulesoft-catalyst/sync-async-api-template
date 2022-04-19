@@ -1,0 +1,78 @@
+#%RAML 1.0 Trait
+
+uses:
+  error-response: error-library/error-structure.raml
+
+responses:
+  400:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples: 
+            example: !include examples/error/client-error/error-response-400.json
+  401:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/client-error/error-response-401.json
+  403:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/client-error/error-response-403.json
+  404:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/client-error/error-response-404.json
+  405:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/client-error/error-response-405.json
+  406:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/client-error/error-response-406.json
+  408:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/client-error/error-response-408.json
+  415:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/client-error/error-response-415.json
+  500:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/server-error/error-response-500.json
+  501:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/server-error/error-response-501.json
+  503:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/server-error/error-response-503.json
+  504:
+      body:
+        application/json:
+          type: error-response.error-collection
+          examples:
+            example: !include examples/error/server-error/error-response-504.json
